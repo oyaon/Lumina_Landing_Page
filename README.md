@@ -1,4 +1,4 @@
-Lumina — Landing Page
+#Lumina — Landing Page
 
 The Intelligence Layer for Visionary Teams
 
@@ -7,7 +7,7 @@ A dark luxury single-page marketing site for Lumina v2. Single self-contained in
 Quick Start
 bash
 open index.html
-# or
+or
 python3 -m http.server 8080
 
 Page Sections
