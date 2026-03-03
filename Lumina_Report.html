@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumina — Landing Page Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold:      #c9a84c;
+    --gold-dim:  #8a6e30;
+    --gold-pale: #f5eed8;
+    --dark:      #111;
+    --body:      #3a3a3a;
+    --mid:       #666;
+    --dim:       #999;
+    --bg:        #faf8f5;
+    --bg-alt:    #f2efe8;
+    --border:    #e0d8ca;
+    --white:     #fff;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5pt;
+    color: var(--body);
+    background: var(--white);
+    line-height: 1.65;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .no-print { display: none !important; }
+    .page { page-break-after: always; }
+    body { font-size: 9.5pt; }
+    .cover { min-height: 100vh; }
+  }
+
+  /* ── LAYOUT ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 72px 80px 64px;
+    background: var(--dark);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 30% 40%, rgba(201,168,76,.12), transparent 70%);
+    pointer-events: none;
+  }
+  .cover-top { position: relative; }
+  .cover-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9pt;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 40px;
+  }
+  .cover-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72pt;
+    font-weight: 300;
+    line-height: .9;
+    letter-spacing: -.02em;
+    color: #ede8df;
+    margin-bottom: 12px;
+  }
+  .cover-subtitle {
+    font-size: 14pt;
+    font-weight: 300;
+    color: rgba(237,232,223,.55);
+    margin-bottom: 56px;
+  }
+  .cover-rule { height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin-bottom: 40px; }
+  .cover-meta { display: flex; gap: 48px; }
+  .cover-meta-item label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,.6);
+    margin-bottom: 4px;
+  }
+  .cover-meta-item span { font-size: 10pt; color: rgba(237,232,223,.7); }
+  .cover-bottom { position: relative; }
+  .cover-summary {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(201,168,76,.18);
+    border-top: 2px solid rgba(201,168,76,.5);
+    padding: 28px 32px;
+    max-width: 680px;
+  }
+  .cover-summary p {
+    font-size: 10pt;
+    color: rgba(237,232,223,.65);
+    line-height: 1.75;
+  }
+  .cover-summary strong { color: rgba(201,168,76,.85); font-weight: 500; }
+
+  /* ── MAIN DOC ── */
+  .doc { max-width: 900px; margin: 0 auto; padding: 72px 80px; }
+  @media (max-width: 960px) { .doc { padding: 48px 32px; } }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 72px; }
+  .section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 6px; }
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20pt;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20pt;
+    font-weight: 300;
+    color: var(--dark);
+    line-height: 1;
+  }
+  .section-rule { height: 1px; background: linear-gradient(90deg, var(--gold) 0%, var(--border) 40%, transparent 100%); margin-bottom: 24px; }
+
+  /* ── SUB-HEADING ── */
+  .sub-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-top: 32px;
+    margin-bottom: 10px;
+  }
+
+  /* ── BODY COPY ── */
+  .lead { font-size: 11pt; color: var(--body); line-height: 1.8; margin-bottom: 24px; max-width: 720px; }
+  p { margin-bottom: 12px; }
+
+  /* ── TABLES ── */
+  .tbl-wrap { overflow-x: auto; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+  thead tr { background: var(--dark); }
+  thead th {
+    text-align: left;
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    font-weight: 400;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--white);
+    white-space: nowrap;
+  }
+  tbody tr:nth-child(odd)  { background: var(--bg); }
+  tbody tr:nth-child(even) { background: var(--white); }
+  tbody tr:hover { background: var(--gold-pale); }
+  tbody td { padding: 9px 14px; color: var(--body); border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody td:first-child { font-weight: 500; color: var(--dark); white-space: nowrap; }
+  .td-mono { font-family: 'DM Mono', monospace; font-size: 8.5pt; color: var(--gold-dim); }
+  .td-dim   { color: var(--mid); font-weight: 300; }
+  .td-high  { color: #b04a2a; font-weight: 600; }
+  .td-med   { color: var(--gold-dim); font-weight: 500; }
+  .td-low   { color: var(--dim); }
+  .td-gold  { color: var(--gold-dim); font-weight: 500; }
+
+  /* ── DECISION CARDS ── */
+  .decisions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .decision-card {
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 20px 22px;
+    background: var(--bg);
+  }
+  .decision-card h4 { font-size: 10.5pt; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+  .decision-card p  { font-size: 9.5pt; color: var(--mid); line-height: 1.7; margin: 0; }
+
+  /* ── PROCESS LOG ── */
+  .pass { margin-bottom: 32px; }
+  .pass-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: var(--dark);
+    padding: 10px 16px;
+    background: var(--bg-alt);
+    border-left: 3px solid var(--gold);
+    margin-bottom: 12px;
+  }
+  .pass ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .pass li { display: flex; gap: 10px; font-size: 9.5pt; color: var(--body); padding-left: 4px; }
+  .pass li::before { content: '·'; color: var(--gold); font-size: 14pt; line-height: 1.2; flex-shrink: 0; }
+
+  /* ── COLOR SWATCHES ── */
+  .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 6px; vertical-align: middle; border: 1px solid rgba(0,0,0,.1); }
+
+  /* ── NAV (screen only) ── */
+  .doc-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,248,245,.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 80px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+  .doc-nav span {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .doc-nav a { font-family: 'DM Mono', monospace; font-size: 8pt; letter-spacing: .12em; text-transform: uppercase; color: var(--mid); text-decoration: none; white-space: nowrap; }
+  .doc-nav a:hover { color: var(--gold); }
+  @media (max-width: 960px) { .doc-nav { padding: 10px 24px; gap: 16px; flex-wrap: wrap; } }
+
+  /* ── PRINT BTN ── */
+  .print-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--dark);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 12px 22px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9pt;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .2s;
+    z-index: 200;
+  }
+  .print-btn:hover { background: var(--gold); color: var(--dark); }
+
+  /* ── PAGE BREAK HINTS ── */
+  .pg { border-top: 2px dashed var(--border); margin: 48px 0; padding-top: 48px; }
+  @media print { .pg { border: none; padding-top: 0; } }
+</style>
+</head>
+<body>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn no-print" onclick="window.print()">⌘ Print / Save PDF</button>
+
+<!-- ════════════════════════════════════════════════════════════
+     COVER
+════════════════════════════════════════════════════════════ -->
+<div class="cover page">
+  <div class="cover-top">
+    <p class="cover-eyebrow">Landing Page · Design, Content & Technical Report</p>
+    <h1 class="cover-title">Lumina</h1>
+    <p class="cover-subtitle">Intelligence Platform · Version 2.0</p>
+    <div class="cover-rule"></div>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><label>Prepared by</label><span>UI Designer Agent · Content Strategist Agent</span></div>
+      <div class="cover-meta-item"><label>Date</label><span>March 2026</span></div>
+      <div class="cover-meta-item"><label>Version</label><span>2.0 — Production Prototype</span></div>
+    </div>
+  </div>
+  <div class="cover-bottom">
+    <div class="cover-summary">
+      <p>This report documents the <strong>Lumina landing page</strong> — a dark luxury SaaS product page built across three iterative agent passes: Initial UI Build, UI Design Improvement, and Content Strategy. It covers the full page architecture, design system, content rationale, key design decisions, animation inventory, responsive behaviour, and recommendations for the next production iteration.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     STICKY NAV (screen only)
+════════════════════════════════════════════════════════════ -->
+<nav class="doc-nav no-print">
+  <span>Lumina Report</span>
+  <a href="#s1">Overview</a>
+  <a href="#s2">Architecture</a>
+  <a href="#s3">Design System</a>
+  <a href="#s4">Content</a>
+  <a href="#s5">Decisions</a>
+  <a href="#s6">Animations</a>
+  <a href="#s7">Responsive</a>
+  <a href="#s8">Recommendations</a>
+  <a href="#s9">Process Log</a>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════
+     DOCUMENT BODY
+════════════════════════════════════════════════════════════ -->
+<main class="doc">
+
+  <!-- S1 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Project Overview</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">Lumina is a fictional AI-powered knowledge and collaboration platform. The landing page was produced through three sequential specialist agent passes, each scoped to a defined discipline and handing off a refined artefact to the next. The result is a single self-contained HTML file that expresses a cohesive dark luxury brand identity from first pixel to final word.</p>
+
+    <div class="sub-label">Project Metadata</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:200px">Field</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Page Title</td><td>Lumina — The Intelligence Layer for Visionary Teams</td></tr>
+          <tr><td>Product</td><td>Lumina v2.0 · AI Knowledge &amp; Collaboration Platform</td></tr>
+          <tr><td>Primary Audience</td><td>Senior leaders, CPOs, CTOs, research teams at enterprise organisations</td></tr>
+          <tr><td>Brand Voice</td><td>Dark luxury · Editorial · Cerebral · Unhurried</td></tr>
+          <tr><td>Design Aesthetic</td><td>Obsidian black · Aged gold · Cormorant Garamond + DM Mono typeface pairing</td></tr>
+          <tr><td>File</td><td class="td-mono">index.html — single-file, self-contained, ~700 lines</td></tr>
+          <tr><td>Dependencies</td><td>Vanilla HTML/CSS/JS only · Google Fonts (no npm, no frameworks)</td></tr>
+          <tr><td>Status</td><td>Version 2.0 — production-ready prototype</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="pg"></div>
+
+  <!-- S2 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Page Architecture &amp; Scroll Flow</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">The page follows a deliberate narrative arc — moving the visitor from awareness → desire → trust → action. Each section has exactly one job, and is designed to hand off cleanly to the next.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:160px">Section</th><th>Contents</th><th style="width:220px">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Navigation</td><td>Fixed bar. Logo mark + wordmark, 4 nav links (Features · Platform · Pricing · Proof), Sign In ghost button, Begin Free CTA. Transparent on load; glazes dark at 60px scroll.</td><td class="td-gold">Brand anchor + persistent conversion point</td></tr>
+          <tr><td>Hero</td><td>Full-viewport. Eyebrow, 2-line headline ("Think clearer. Move faster."), subtext, primary CTA + ghost CTA, company trust strip (5 names), animated scroll indicator.</td><td class="td-gold">Category claim + first conversion opportunity</td></tr>
+          <tr><td>Stats Bar</td><td>4 animated counters: 340K+ Teams · 98.9% Global Uptime · 12ms Response Latency · 4.9★ Avg. Rating. Triggered on viewport entry at 40% threshold.</td><td class="td-gold">Instant credibility — no words needed</td></tr>
+          <tr><td>Features</td><td>Section header + 6-card grid. Card 01 spans full grid width with animated live node-graph visual. Cards 02–06 in 3-column layout with hover reveal states and staggered scroll-in.</td><td class="td-gold">Capability proof — what Lumina does</td></tr>
+          <tr><td>Platform Spotlight</td><td>2-column layout. Left: animated orbital system (3 counter-rotating rings, breathing core orb, corner-bracket frame). Right: philosophy intro + 3 hover-indent accordion items.</td><td class="td-gold">Differentiation — why Lumina, not a competitor</td></tr>
+          <tr><td>Pricing</td><td>3-tier grid: Ember (free) · Luminary ($49/seat, featured) · Sovereign (custom). Monthly/annual toggle with live JS price swap. Featured card physically elevated with scaleY.</td><td class="td-gold">Conversion architecture — guides to the right tier</td></tr>
+          <tr><td>Testimonials</td><td>Two infinite-scroll marquee rows running in opposite directions at different speeds. 10 unique personas with gradient avatar rings. Pauses on hover. Review count in header.</td><td class="td-gold">Social proof at scale</td></tr>
+          <tr><td>CTA</td><td>Full-section with diagonal-line texture, radial glow backdrop, enlarged email capture form (focus-glow state on input), 3-item social proof strip (rating · SOC 2 · no CC).</td><td class="td-gold">Final conversion — lowest-friction entry</td></tr>
+          <tr><td>Footer</td><td>4-column grid: Brand (2fr) + Product + Developers + Company (1fr each). Social buttons. Legal strip with copyright + Privacy / Terms / Cookies.</td><td class="td-gold">Legitimacy signal — product completeness</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="pg"></div>
+
+  <!-- S3 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Design System</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">The design language rests on three mutually-reinforcing choices: near-black backgrounds that force all attention onto content; aged-gold accents that signal premium without ostentation; and a serif/mono typeface pairing that creates editorial intelligence. Every value is tokenised as a CSS custom property on <code>:root</code>.</p>
+
+    <div class="sub-label">Colour Tokens</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Token</th><th>Value</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td class="td-mono">--gold</td><td><span class="swatch" style="background:#c9a84c"></span>#C9A84C</td><td class="td-dim">Primary accent — UI elements, active borders, icons</td></tr>
+          <tr><td class="td-mono">--gold-light</td><td><span class="swatch" style="background:#e8c97a"></span>#E8C97A</td><td class="td-dim">Highlight — headlines, hover states, logo text</td></tr>
+          <tr><td class="td-mono">--gold-dim</td><td><span class="swatch" style="background:#6b5526"></span>#6B5526</td><td class="td-dim">Subdued — decorative lines, secondary accents</td></tr>
+          <tr><td class="td-mono">--bg</td><td><span class="swatch" style="background:#060606;border-color:#444"></span>#060606</td><td class="td-dim">Base background — deepest layer</td></tr>
+          <tr><td class="td-mono">--bg2</td><td><span class="swatch" style="background:#0c0c0c;border-color:#444"></span>#0C0C0C</td><td class="td-dim">Section alternate — spotlight, testimonials, footer</td></tr>
+          <tr><td class="td-mono">--bg3</td><td><span class="swatch" style="background:#131313;border-color:#444"></span>#131313</td><td class="td-dim">Interactive surface — card hover states</td></tr>
+          <tr><td class="td-mono">--text</td><td><span class="swatch" style="background:#ede8df;border-color:#ccc"></span>#EDE8DF</td><td class="td-dim">Primary text — warm white, never pure white</td></tr>
+          <tr><td class="td-mono">--text-mid</td><td><span class="swatch" style="background:#9e9890"></span>#9E9890</td><td class="td-dim">Secondary text — descriptions, subtext</td></tr>
+          <tr><td class="td-mono">--text-dim</td><td><span class="swatch" style="background:#52504c"></span>#52504C</td><td class="td-dim">Tertiary text — labels, placeholders, metadata</td></tr>
+          <tr><td class="td-mono">--border</td><td>rgba(201,168,76,.12)</td><td class="td-dim">Structural borders — grid lines, section dividers</td></tr>
+          <tr><td class="td-mono">--border-hi</td><td>rgba(201,168,76,.28)</td><td class="td-dim">Elevated borders — active states, card edges on hover</td></tr>
+          <tr><td class="td-mono">--gold-glow</td><td>rgba(201,168,76,.18)</td><td class="td-dim">Ambient glow fills — orbs, CTA backdrop</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub-label">Typography System</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Family</th><th>Category</th><th>Weights Used</th><th>Applied to</th></tr></thead>
+        <tbody>
+          <tr><td>Cormorant Garamond</td><td class="td-dim">Serif</td><td class="td-dim">300, 400, italic</td><td class="td-dim">Hero headline, section titles, pricing numbers, CTA, logo wordmark</td></tr>
+          <tr><td>Outfit</td><td class="td-dim">Sans-serif</td><td class="td-dim">200, 300, 400, 500, 600</td><td class="td-dim">Body copy, nav links, buttons, feature descriptions, pricing tiers</td></tr>
+          <tr><td>DM Mono</td><td class="td-dim">Monospace</td><td class="td-dim">300, 400, 500</td><td class="td-dim">Section tags, stat labels, eyebrows, role names, footer column headings</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="pg"></div>
+
+  <!-- S4 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Content Strategy</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">Every word on the page was audited and rewritten to hold a single, consistent register throughout: dark luxury — deliberate, editorial, unhurried. The guiding content rule: copy and design must feel made by the same person in the same moment.</p>
+
+    <div class="sub-label">Brand Voice Principles</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:260px">Principle</th><th>Rationale &amp; Application</th></tr></thead>
+        <tbody>
+          <tr><td>"Crafted", never "engineered"</td><td class="td-dim">Luxury products are crafted. "Engineered" implies specification sheets and cold process. One word change carries the entire brand register. Applied: "Crafted for extraordinary thinking."</td></tr>
+          <tr><td>Commands, not invitations</td><td class="td-dim">Weak pages invite users to try things. Strong ones state what the product does and let the user decide. Every headline on Lumina is declarative, never interrogative.</td></tr>
+          <tr><td>Specific over vague</td><td class="td-dim">Generic SaaS copy was replaced with concrete outcomes: "Find anything, understand everything, forget nothing" vs. the original "making retrieval feel like memory."</td></tr>
+          <tr><td>One action verb throughout: Begin</td><td class="td-dim">Every CTA on the page uses "Begin" — Begin Free, Begin Luminary, Begin Free →. Repetition of a single verb builds subconscious trust and brand recall.</td></tr>
+          <tr><td>Premium audience word choice</td><td class="td-dim">"Active Builders" → "Teams Worldwide." "Uptime SLA" → "Global Uptime." Word choice signals who the product is for before the user reads a description.</td></tr>
+          <tr><td>No real brand names in trust strip</td><td class="td-dim">Original strip listed Notion, Linear, Vercel, Figma, Stripe — competitors and partners, not customers. Replaced with fictional enterprise names (Meridian, Archform, Vantage, Crestline, Solace).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub-label">CTA Consistency Map</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Location</th><th>Button Label</th><th>Style Note</th></tr></thead>
+        <tbody>
+          <tr><td>Navigation bar</td><td class="td-gold">Begin Free</td><td class="td-mono td-dim">nav-cta — ghost with gold border</td></tr>
+          <tr><td>Hero — primary</td><td class="td-gold">Begin Free</td><td class="td-mono td-dim">btn-primary — solid gold fill + shimmer</td></tr>
+          <tr><td>Hero — secondary</td><td class="td-gold">See it in motion →</td><td class="td-mono td-dim">btn-ghost — transparent border</td></tr>
+          <tr><td>Feature hero card</td><td class="td-gold">Explore this capability →</td><td class="td-mono td-dim">btn-ghost inline, no border</td></tr>
+          <tr><td>Pricing — Ember</td><td class="td-gold">Begin Free</td><td class="td-mono td-dim">card-btn-outline</td></tr>
+          <tr><td>Pricing — Luminary</td><td class="td-gold">Begin Luminary</td><td class="td-mono td-dim">card-btn-filled — solid gold (featured tier)</td></tr>
+          <tr><td>Pricing — Sovereign</td><td class="td-gold">Request a conversation</td><td class="td-mono td-dim">card-btn-outline — elevated enterprise register</td></tr>
+          <tr><td>Final CTA form</td><td class="td-gold">Begin Free →</td><td class="td-mono td-dim">cta-form-btn — inline with email input</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub-label">Section Copy Reference</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Section</th><th>Tag / Eyebrow</th><th>Headline</th></tr></thead>
+        <tbody>
+          <tr><td>Hero</td><td class="td-dim">The Intelligence Layer · Now in v2</td><td>Think clearer. <em>Move faster.</em></td></tr>
+          <tr><td>Features</td><td class="td-dim">The Capabilities</td><td>Crafted for <em>extraordinary</em> thinking</td></tr>
+          <tr><td>Platform</td><td class="td-dim">A New Architecture</td><td>Built on a <em>different premise</em></td></tr>
+          <tr><td>Pricing</td><td class="td-dim">Pricing</td><td>Invest in <em>your thinking.</em></td></tr>
+          <tr><td>Testimonials</td><td class="td-dim">In Their Words</td><td>What changes when teams <em>think better</em></td></tr>
+          <tr><td>CTA</td><td class="td-dim">The Thinking Starts Now</td><td>The clearest <em>version of you.</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="pg"></div>
+
+  <!-- S5 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Key Design Decisions</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">Eight design choices that shaped the most significant visual and UX outcomes — with the rationale behind each.</p>
+
+    <div class="decisions">
+      <div class="decision-card">
+        <h4>Hero Orbs — Warm Gold Only</h4>
+        <p>Original palette included blue (#4c7ac9) and pink (#c94c7a) orbs — direct conflicts with the luxury monochrome identity. Revised to three warm-gold-only depth orbs at varying opacity and drift speeds. Atmospheric layering without any foreign hues.</p>
+      </div>
+      <div class="decision-card">
+        <h4>Feature Grid Hierarchy</h4>
+        <p>Six identical cards flattened perceived importance. Solution: Card 01 spans the full grid width with a live animated node-graph visual, physically breaking the grid and anchoring attention before the user reads a word of copy.</p>
+      </div>
+      <div class="decision-card">
+        <h4>Pricing Card Elevation</h4>
+        <p>The featured Luminary card uses <code>scaleY(1.02)</code> with <code>transform-origin: top center</code> to physically lift it above its neighbours. Combined with a gradient top border and ambient box-shadow, it reads as "chosen" before conscious evaluation.</p>
+      </div>
+      <div class="decision-card">
+        <h4>Dual Opposing Marquees</h4>
+        <p>A single scrolling row feels like a conveyor belt. Two rows at different speeds in opposite directions create the impression of a much larger community — while showing all 10 testimonials simultaneously without pagination.</p>
+      </div>
+      <div class="decision-card">
+        <h4>Corner-Bracket Visual Frame</h4>
+        <p>Platform spotlight originally used a center spine divider that fought the 2-column layout. Replaced with CSS <code>::before</code>/<code>::after</code> corner brackets — a precision instrument motif that reinforces brand character without layout constraints.</p>
+      </div>
+      <div class="decision-card">
+        <h4>Custom Cursor System</h4>
+        <p>The gold dot-and-ring cursor with spring-lag interpolation (0.11 lerp factor) extends brand language into the interaction layer. Every mouse movement feels intentional. The ring expands on hover over any interactive element.</p>
+      </div>
+      <div class="decision-card">
+        <h4>Trust Strip — No Real Brand Names</h4>
+        <p>Notion, Linear, Vercel, Figma, Stripe are competitors or unrelated platforms — not Lumina customers. Listing them is a credibility error. Replaced with fictional enterprise names that signal the correct buyer archetype without misdirection.</p>
+      </div>
+      <div class="decision-card">
+        <h4>Nav Label: "Proof" not "Stories"</h4>
+        <p>In a compressed B2B enterprise nav, "Stories" is too soft. "Proof" is a single-word challenge — it implies evidence, creates curiosity, and aligns with the testimonials section headline: "What changes when teams think better."</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="pg"></div>
+
+  <!-- S6 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s6">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Animation &amp; Interaction Inventory</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">All animations are CSS-first. JavaScript is used only where CSS cannot provide the required behaviour: cursor spring-lag interpolation, viewport-triggered stat counters, and the pricing toggle.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Element</th><th>Method</th><th>Duration</th><th>Trigger</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Custom cursor</td><td class="td-mono td-dim">JS — rAF loop</td><td class="td-dim">0.11 lerp</td><td class="td-dim">Always on</td><td class="td-dim">Ring follows with spring lag; dot + ring expand on interactive hover</td></tr>
+          <tr><td>Hero orbs</td><td class="td-mono td-dim">CSS orbDrift</td><td class="td-dim">18–24s ease</td><td class="td-dim">Infinite</td><td class="td-dim">Three orbs drift X + Y independently at different speeds</td></tr>
+          <tr><td>Hero content</td><td class="td-mono td-dim">CSS fadeUp</td><td class="td-dim">0.3–1.5s</td><td class="td-dim">Page load</td><td class="td-dim">Staggered: eyebrow → headline → sub → CTAs → trust strip</td></tr>
+          <tr><td>Scroll indicator</td><td class="td-mono td-dim">CSS scrollPulse</td><td class="td-dim">2.2s ease</td><td class="td-dim">Infinite</td><td class="td-dim">scaleY + opacity pulse on the gold vertical line</td></tr>
+          <tr><td>Stat counters</td><td class="td-mono td-dim">JS — setInterval</td><td class="td-dim">1600ms</td><td class="td-dim">Viewport (40%)</td><td class="td-dim">IntersectionObserver trigger; counts from 0 to target, fires once</td></tr>
+          <tr><td>Feature cards</td><td class="td-mono td-dim">CSS + IO</td><td class="td-dim">0.55s staggered</td><td class="td-dim">Viewport (8%)</td><td class="td-dim">fadeUp with per-card transition-delay</td></tr>
+          <tr><td>Node graph</td><td class="td-mono td-dim">CSS nodePulse</td><td class="td-dim">3s ease</td><td class="td-dim">Infinite</td><td class="td-dim">5 nodes pulse scale + opacity with offset animation-delay</td></tr>
+          <tr><td>Orbital rings</td><td class="td-mono td-dim">CSS visRotate</td><td class="td-dim">18/28/38s</td><td class="td-dim">Infinite</td><td class="td-dim">Three rings counter-rotate at different speeds; outer dashed</td></tr>
+          <tr><td>Orbital core</td><td class="td-mono td-dim">CSS coreBreath</td><td class="td-dim">4s ease</td><td class="td-dim">Infinite</td><td class="td-dim">Orb scales 1→1.06→1; inner orb reverses phase</td></tr>
+          <tr><td>Testimonial marquee</td><td class="td-mono td-dim">CSS marquee</td><td class="td-dim">42s / 52s</td><td class="td-dim">Infinite</td><td class="td-dim">Row 1 forward, row 2 reverse; both pause on :hover</td></tr>
+          <tr><td>CTA form focus</td><td class="td-mono td-dim">CSS :focus-within</td><td class="td-dim">0.3s</td><td class="td-dim">Input focus</td><td class="td-dim">Border transitions to gold; 30px ambient box-shadow activates</td></tr>
+          <tr><td>Pricing toggle</td><td class="td-mono td-dim">JS — click handler</td><td class="td-dim">Instant</td><td class="td-dim">User click</td><td class="td-dim">Swaps data-monthly / data-annual attributes on .price-num elements</td></tr>
+          <tr><td>Button shimmer</td><td class="td-mono td-dim">CSS ::after</td><td class="td-dim">0.5s</td><td class="td-dim">Hover</td><td class="td-dim">White gradient sweeps translateX across btn-primary + card-btn-filled</td></tr>
+          <tr><td>Stat bar hover</td><td class="td-mono td-dim">CSS ::after</td><td class="td-dim">0.4s</td><td class="td-dim">Hover</td><td class="td-dim">Gold underline expands from 0 to 60% width on each stat-item</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="pg"></div>
+
+  <!-- S7 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s7">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Responsive Behaviour</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">Two breakpoints handle the full range from widescreen desktop to mobile. No external CSS framework is used — all rules are hand-authored inside the single <code>&lt;style&gt;</code> block.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:180px">Breakpoint</th><th>Changes Applied</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>≤ 1100px<br><span style="font-weight:300;font-size:9pt;color:#999">Tablet / small laptop</span></td>
+            <td class="td-dim">Nav padding compresses (26px → 22px). Nav links and Sign In button hidden — only logo mark and Begin Free remain visible. All major sections reduce from 150–160px padding to 100px 32px. Features grid collapses 3-column → 2-column. Hero feature card switches from 2-column to 1-column stacked. Platform spotlight stacks vertically. Pricing cards stack to single column; featured card loses scaleY. Testimonials header stacks vertically. Footer compresses from 4-column to 2-column grid.</td>
+          </tr>
+          <tr>
+            <td>≤ 640px<br><span style="font-weight:300;font-size:9pt;color:#999">Mobile</span></td>
+            <td class="td-dim">Features grid collapses to 1-column. Stats bar wraps to 2×2 grid (border-bottom replaces border-right). Hero action buttons stack to full-width and justify-center. Trust logos wrap and center. Footer goes fully single-column. CTA social proof strip stacks vertically; separator lines hide.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S8 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s8">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Recommendations for Next Iteration</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">The current page is a high-quality prototype. The following improvements would elevate it to a fully production-ready, conversion-optimised marketing page.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Recommendation</th><th style="width:80px">Priority</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>Add product screenshot or demo video</td><td class="td-high">High</td><td class="td-dim">Page has zero UI proof. A 30-second autoplay muted clip or a single sharp UI screenshot above the fold dramatically improves cold-traffic conversion rates.</td></tr>
+          <tr><td>A/B test hero headline</td><td class="td-high">High</td><td class="td-dim">Test "Think clearer. Move faster." (functional) vs. "The mind behind your best work" (emotional). Both are strong — data decides.</td></tr>
+          <tr><td>Real customer logos in trust strip</td><td class="td-high">High</td><td class="td-dim">3 real SVG logos of actual customers outperform 5 fictional names in every study. Significant credibility uplift at zero design cost.</td></tr>
+          <tr><td>Add FAQ section below pricing</td><td class="td-med">Medium</td><td class="td-dim">Enterprise buyers have objections. A collapsible FAQ pre-empts sales calls, shortens deal cycles, and improves long-tail SEO keyword coverage.</td></tr>
+          <tr><td>Open Graph / Twitter Card / JSON-LD</td><td class="td-med">Medium</td><td class="td-dim">Page has no social sharing meta tags or structured data. High-impact for distribution and SEO. Implementation takes less than 30 minutes.</td></tr>
+          <tr><td>prefers-reduced-motion support</td><td class="td-med">Medium</td><td class="td-dim"><code>cursor:none</code> on body hides the system cursor. Requires a <code>prefers-reduced-motion</code> media query that disables custom animations and restores the system cursor.</td></tr>
+          <tr><td>Keyboard focus ring styles</td><td class="td-med">Medium</td><td class="td-dim">Focus states are missing throughout the page. Required for WCAG 2.1 AA compliance and keyboard navigation.</td></tr>
+          <tr><td>Mobile navigation drawer</td><td class="td-low">Low</td><td class="td-dim">The nav collapses all links on tablet/mobile with no hamburger or drawer fallback. A minimal slide-down nav would improve mobile UX.</td></tr>
+          <tr><td>Scroll-reveal on all section headers</td><td class="td-low">Low</td><td class="td-dim">Currently only feature cards animate in on scroll. Extending fadeUp to section headers and the platform content would make the scroll experience feel more immersive.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="pg"></div>
+
+  <!-- S9 ─────────────────────────────────────────────────── -->
+  <section class="section" id="s9">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2 class="section-title">Agent Process Log</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">The page was produced through three sequential specialist agent passes. Each had a defined scope and handed off a clean artefact to the next.</p>
+
+    <div class="pass">
+      <div class="pass-title">Pass 1 — UI Designer Agent · Initial Build</div>
+      <ul>
+        <li>Established the dark luxury design language: obsidian black + aged gold palette + warm off-white text</li>
+        <li>Selected the Cormorant Garamond / Outfit / DM Mono typeface hierarchy</li>
+        <li>Designed and coded all 9 page sections from scratch in a single HTML file</li>
+        <li>Implemented: custom cursor with spring-lag interpolation, hero orbs + radial grid, animated stats bar, 6-feature grid, orbital platform visual, 3-tier pricing with toggle, testimonial marquee, CTA email section, 4-column footer</li>
+        <li>Added all CSS @keyframes: orbDrift, fadeUp, scrollPulse, nodePulse, visRotate, coreBreath, marquee</li>
+        <li>Added JS: cursor rAF lerp, IntersectionObserver scroll reveals, stat counter animation, pricing toggle</li>
+      </ul>
+    </div>
+
+    <div class="pass">
+      <div class="pass-title">Pass 2 — UI Designer Agent · Design Improvement</div>
+      <ul>
+        <li>Performed full design audit — identified 10 issues across palette consistency, visual hierarchy, and layout structure</li>
+        <li>Fixed off-brand blue (#4c7ac9) and pink (#c94c7a) hero orbs → warm gold-only depth system</li>
+        <li>Added glowing orb logo mark to nav and footer for brand identity beyond the wordmark</li>
+        <li>Added "Chosen by leading teams at" company trust strip and "Sign in" secondary nav action</li>
+        <li>Rebuilt Feature 01 as full-width hero card with animated live node-graph visual (5 nodes, SVG connection lines)</li>
+        <li>Replaced center-spine platform divider → CSS corner-bracket precision frame (::before/::after)</li>
+        <li>Elevated featured Luminary pricing card: scaleY(1.02) lift + gradient top border + ambient glow</li>
+        <li>Upgraded testimonial avatars from flat letters to circular gradient backgrounds with halo rings</li>
+        <li>Added second opposing testimonial marquee row with 5 new personas (reverse direction, 52s)</li>
+        <li>Rebuilt footer from flat single-row to 4-column grid with social icon buttons and full legal strip</li>
+        <li>Enhanced CTA form: enlarged input padding (20px), :focus-within gold glow, 3-item social proof trust strip</li>
+      </ul>
+    </div>
+
+    <div class="pass">
+      <div class="pass-title">Pass 3 — Content Strategist Agent · Copy &amp; Voice</div>
+      <ul>
+        <li>Performed full content audit — identified 18 copy issues across all sections</li>
+        <li>Rewrote: page title, hero eyebrow, headline ("Where ideas become inevitable" → "Think clearer. Move faster."), subtext, and all CTA buttons</li>
+        <li>Fixed trust strip: removed Notion / Linear / Vercel / Figma / Stripe → fictional enterprise names</li>
+        <li>Updated all 4 stat labels to match premium audience language ("Active Builders" → "Teams Worldwide")</li>
+        <li>Rewrote features section tag, header copy, and all 6 feature card descriptions (ending on strength, not friction)</li>
+        <li>Rewrote platform section tag, intro paragraph, and 3 spotlight items with deeper specificity</li>
+        <li>Fixed pricing headline (resolved "One price. Zero surprises." vs. 3-tier contradiction)</li>
+        <li>Rewrote all 3 pricing plan descriptors to be persona-specific and audience-targeted</li>
+        <li>Rewrote testimonials section headline, CTA section headline, subtext, and form elements</li>
+        <li>Rewrote footer tagline from jargon to human language</li>
+        <li>Recheck pass: fixed 5 remaining inconsistencies — section tags, CTA verb alignment, nav label "Stories" → "Proof"</li>
+      </ul>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Smooth-scroll for nav links
+  document.querySelectorAll('.doc-nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
